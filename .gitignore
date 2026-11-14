@@ -7,3 +7,10 @@ dist/
 *.tsbuildinfo
 .DS_Store
 node_modules
+
+# 数据集下载目录（Releases 中的 v4.0/v3.0 大文件，不入库）
+mydata/
+data/
+
+# WorkBuddy AI 工作目录（本地记忆，不入库）
+.workbuddy-ai/
