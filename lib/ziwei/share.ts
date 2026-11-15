@@ -31,6 +31,9 @@ export function formToBirthInfo(form: BirthFormState): BirthInfo {
   let d = parseInt(form.day) || 0;
   let hour = 0;
 
+  // 原始钟表读数，用于事后核对「真太阳时到底改了没有」
+  const raw = { year: y, month: m, day: d };
+
   // 晚子时换日按真太阳时判定，与时辰支同一口径（见 true-solar-time.ts 的 resolveZiweiDayOffset）。
   if (!form.unknownTime) {
     const solar = formToTrueSolarTime(form);
@@ -49,6 +52,16 @@ export function formToBirthInfo(form: BirthFormState): BirthInfo {
     province: form.province || undefined,
     city: form.city || undefined,
     longitude: form.province ? form.longitude : undefined,
+    // 只有填了时辰才有必要留原始读数；「时辰未知」时无法比较
+    origInput: form.unknownTime
+      ? undefined
+      : {
+          year: raw.year,
+          month: raw.month,
+          day: raw.day,
+          clockHour: parseInt(form.clockHour) || 0,
+          clockMinute: parseInt(form.clockMinute) || 0,
+        },
   };
 }
 
